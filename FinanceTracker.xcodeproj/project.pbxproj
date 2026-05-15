@@ -30,9 +30,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		968DB6032FB763BF001D2B2C /* FinanceTracker */ = {
+		968DB6032FB763BF001D2B2C /* App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FinanceTracker;
+			path = App;
 			sourceTree = "<group>";
 		};
 		968DB6132FB763C3001D2B2C /* FinanceTrackerTests */ = {
@@ -43,6 +43,26 @@
 		968DB61D2FB763C3001D2B2C /* FinanceTrackerUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = FinanceTrackerUITests;
+			sourceTree = "<group>";
+		};
+		968DB62D2FB76667001D2B2C /* Core */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Core;
+			sourceTree = "<group>";
+		};
+		968DB62F2FB7674D001D2B2C /* Features */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Features;
+			sourceTree = "<group>";
+		};
+		968DB6372FB768A3001D2B2C /* Services */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		968DB6382FB768B9001D2B2C /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,7 +95,11 @@
 		968DB5F82FB763BF001D2B2C = {
 			isa = PBXGroup;
 			children = (
-				968DB6032FB763BF001D2B2C /* FinanceTracker */,
+				968DB6032FB763BF001D2B2C /* App */,
+				968DB62D2FB76667001D2B2C /* Core */,
+				968DB62F2FB7674D001D2B2C /* Features */,
+				968DB6372FB768A3001D2B2C /* Services */,
+				968DB6382FB768B9001D2B2C /* Resources */,
 				968DB6132FB763C3001D2B2C /* FinanceTrackerTests */,
 				968DB61D2FB763C3001D2B2C /* FinanceTrackerUITests */,
 				968DB6022FB763BF001D2B2C /* Products */,
@@ -108,7 +132,11 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				968DB6032FB763BF001D2B2C /* FinanceTracker */,
+				968DB6032FB763BF001D2B2C /* App */,
+				968DB62D2FB76667001D2B2C /* Core */,
+				968DB62F2FB7674D001D2B2C /* Features */,
+				968DB6372FB768A3001D2B2C /* Services */,
+				968DB6382FB768B9001D2B2C /* Resources */,
 			);
 			name = FinanceTracker;
 			packageProductDependencies = (
