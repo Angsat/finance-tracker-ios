@@ -43,27 +43,48 @@ struct TransactionListView: View {
                 
                 VStack(spacing: 12) {
                     
-                    Text("Balance: \(totalBalance)")
+                    Text("Balance: \(totalBalance.asCurrency())")
                     
-                    Text("Income: \(totalIncome)")
-                    
-                    Text("Expense: \(totalExpense)")
+                    Text("Income: \(totalIncome.asCurrency())")
+
+                    Text("Expense: \(totalExpense.asCurrency())")
                 }
                 .padding()
                 
                 List {
-                    List {
-                        
-                        ForEach(transactions) { transaction in
-                            
-                            VStack(alignment: .leading) {
-                                
-                                Text(transaction.category)
-                                
-                                Text("\(transaction.amount)")
-                            }
+                    if transactions.isEmpty {
+
+                        VStack(spacing: 16) {
+
+                            Image(systemName: "wallet.pass")
+                                .font(.largeTitle)
+                                .foregroundStyle(.gray)
+
+                            Text("No Transactions Yet")
+
+                            Text(
+                                "Tap + to add your first transaction"
+                            )
+                            .font(.caption)
+                            .foregroundStyle(.gray)
                         }
-                        .onDelete(perform: deleteTransaction)
+                        .frame(
+                            maxWidth: .infinity,
+                            maxHeight: .infinity
+                        )
+
+                    } else {
+
+                        List {
+
+                            ForEach(transactions) { transaction in
+
+                                TransactionRowView(
+                                    transaction: transaction
+                                )
+                            }
+                            .onDelete(perform: deleteTransaction)
+                        }
                     }
                 }
                 .navigationTitle("Finance Tracker")
