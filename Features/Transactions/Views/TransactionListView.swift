@@ -16,8 +16,27 @@ struct TransactionListView: View {
     )
     private var transactions: [Transaction]
     @State private var showAddTransaction = false
+    @State private var selectedFilter = "All"
     @Environment(\.modelContext)
     private var modelContext
+    private var filteredTransactions: [Transaction] {
+
+        switch selectedFilter {
+
+        case "Income":
+            return transactions.filter {
+                $0.type == .income
+            }
+
+        case "Expense":
+            return transactions.filter {
+                $0.type == .expense
+            }
+
+        default:
+            return transactions
+        }
+    }
     private var totalIncome: Double {
 
         transactions
@@ -41,16 +60,64 @@ struct TransactionListView: View {
         NavigationStack {
             VStack {
                 
-                VStack(spacing: 12) {
-                    
-                    Text("Balance: \(totalBalance.asCurrency())")
-                    
-                    Text("Income: \(totalIncome.asCurrency())")
+                VStack(alignment: .leading, spacing: 16) {
 
-                    Text("Expense: \(totalExpense.asCurrency())")
+                    Text("Total Balance")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    Text(totalBalance.asCurrency())
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+
+                    HStack {
+
+                        VStack(alignment: .leading) {
+
+                            Text("Income")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+
+                            Text(totalIncome.asCurrency())
+                                .foregroundStyle(.green)
+                        }
+
+                        Spacer()
+
+                        VStack(alignment: .trailing) {
+
+                            Text("Expenses")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+
+                            Text(totalExpense.asCurrency())
+                                .foregroundStyle(.red)
+                        }
+                    }
                 }
                 .padding()
-                
+                .background(Color(.systemGray6))
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 20)
+                )
+                .padding(.horizontal)
+                .padding()
+                Picker(
+                    "Filter",
+                    selection: $selectedFilter
+                ) {
+
+                    Text("All")
+                        .tag("All")
+
+                    Text("Income")
+                        .tag("Income")
+
+                    Text("Expense")
+                        .tag("Expense")
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
                 List {
                     if transactions.isEmpty {
 
@@ -77,7 +144,7 @@ struct TransactionListView: View {
 
                         List {
 
-                            ForEach(transactions) { transaction in
+                            ForEach(filteredTransactions) { transaction in
 
                                 TransactionRowView(
                                     transaction: transaction

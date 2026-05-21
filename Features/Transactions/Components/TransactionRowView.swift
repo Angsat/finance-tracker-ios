@@ -13,7 +13,17 @@ struct TransactionRowView: View {
 
     var body: some View {
 
-        HStack {
+        HStack(spacing: 16) {
+
+            ZStack {
+
+                Circle()
+                    .fill(iconBackgroundColor)
+                    .frame(width: 44, height: 44)
+
+                Image(systemName: iconName)
+                    .foregroundStyle(.white)
+            }
 
             VStack(alignment: .leading, spacing: 4) {
 
@@ -25,7 +35,7 @@ struct TransactionRowView: View {
 
                     Text(note)
                         .font(.caption)
-                        .foregroundStyle(.gray)
+                        .foregroundStyle(.secondary)
                 }
             }
 
@@ -42,12 +52,11 @@ struct TransactionRowView: View {
                     style: .date
                 )
                 .font(.caption)
-                .foregroundStyle(.gray)
+                .foregroundStyle(.secondary)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 6)
     }
-
     private var amountText: String {
 
         let sign = transaction.type == .income
@@ -58,6 +67,41 @@ struct TransactionRowView: View {
     }
 
     private var amountColor: Color {
+
+        transaction.type == .income
+            ? .green
+            : .red
+    }
+    private var iconName: String {
+
+        switch transaction.category.lowercased() {
+
+        case "food":
+            return "fork.knife"
+
+        case "transport":
+            return "car.fill"
+
+        case "shopping":
+            return "bag.fill"
+
+        case "salary":
+            return "banknote.fill"
+
+        case "health":
+            return "cross.case.fill"
+
+        case "entertainment":
+            return "gamecontroller.fill"
+
+        default:
+            return transaction.type == .income
+                ? "arrow.down"
+                : "arrow.up"
+        }
+    }
+
+    private var iconBackgroundColor: Color {
 
         transaction.type == .income
             ? .green

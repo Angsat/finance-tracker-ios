@@ -18,7 +18,8 @@ struct AddTransactionView: View {
 
     @State private var amount = ""
     @State private var selectedType: TransactionType = .expense
-    @State private var category = ""
+    @State private var selectedCategory:
+    TransactionCategory = .food
     @State private var note = ""
 
     var body: some View {
@@ -51,10 +52,20 @@ struct AddTransactionView: View {
 
                 Section("Category") {
 
-                    TextField(
-                        "Enter category",
-                        text: $category
-                    )
+                    Picker(
+                        "Select Category",
+                        selection: $selectedCategory
+                    ) {
+
+                        ForEach(
+                            TransactionCategory.allCases,
+                            id: \.self
+                        ) { category in
+
+                            Text(category.rawValue)
+                                .tag(category)
+                        }
+                    }
                 }
 
                 Section("Note") {
@@ -94,8 +105,7 @@ struct AddTransactionView: View {
         let transaction = Transaction(
             amount: amountValue,
             type: selectedType,
-            category: category,
-            note: note.isEmpty ? nil : note
+            category: selectedCategory.rawValue,            note: note.isEmpty ? nil : note
         )
 
         context.insert(transaction)
