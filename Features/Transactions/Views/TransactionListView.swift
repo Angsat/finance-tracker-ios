@@ -17,25 +17,40 @@ struct TransactionListView: View {
     private var transactions: [Transaction]
     @State private var showAddTransaction = false
     @State private var selectedFilter = "All"
+    @State private var selectedCategory = "All Categories"
     @Environment(\.modelContext)
     private var modelContext
     private var filteredTransactions: [Transaction] {
 
+        var result = transactions
+
         switch selectedFilter {
 
         case "Income":
-            return transactions.filter {
+
+            result = result.filter {
                 $0.type == .income
             }
 
         case "Expense":
-            return transactions.filter {
+
+            result = result.filter {
                 $0.type == .expense
             }
 
         default:
-            return transactions
+            break
         }
+
+        if selectedCategory != "All Categories" {
+
+            result = result.filter {
+
+                $0.category == selectedCategory
+            }
+        }
+
+        return result
     }
     private var totalIncome: Double {
 
@@ -117,6 +132,41 @@ struct TransactionListView: View {
                         .tag("Expense")
                 }
                 .pickerStyle(.segmented)
+                Menu {
+
+                    Button("All Categories") {
+
+                        selectedCategory = "All Categories"
+                    }
+
+                    ForEach(
+                        TransactionCategory.allCases,
+                        id: \.self
+                    ) { category in
+
+                        Button(category.rawValue) {
+
+                            selectedCategory = category.rawValue
+                        }
+                    }
+
+                } label: {
+
+                    HStack {
+
+                        Text(selectedCategory)
+
+                        Spacer()
+
+                        Image(systemName: "chevron.down")
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: 12)
+                    )
+                }
+                .padding(.horizontal)
                 .padding(.horizontal)
                 List {
                     if transactions.isEmpty {
@@ -146,9 +196,18 @@ struct TransactionListView: View {
 
                             ForEach(filteredTransactions) { transaction in
 
-                                TransactionRowView(
-                                    transaction: transaction
-                                )
+                                NavigationLink {
+
+                                    EditTransactionView(
+                                        transaction: transaction
+                                    )
+
+                                } label: {
+
+                                    TransactionRowView(
+                                        transaction: transaction
+                                    )
+                                }
                             }
                             .onDelete(perform: deleteTransaction)
                         }
