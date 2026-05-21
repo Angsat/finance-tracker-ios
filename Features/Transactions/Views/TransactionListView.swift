@@ -16,18 +16,24 @@ struct TransactionListView: View {
     )
     private var transactions: [Transaction]
     @State private var showAddTransaction = false
+    @Environment(\.modelContext)
+    private var modelContext
     var body: some View {
 
         NavigationStack {
 
-            List(transactions) { transaction in
+            List {
 
-                VStack(alignment: .leading) {
+                ForEach(transactions) { transaction in
 
-                    Text(transaction.category)
+                    VStack(alignment: .leading) {
 
-                    Text("\(transaction.amount)")
+                        Text(transaction.category)
+
+                        Text("\(transaction.amount)")
+                    }
                 }
+                .onDelete(perform: deleteTransaction)
             }
             .navigationTitle("Finance Tracker")
             
@@ -47,6 +53,18 @@ struct TransactionListView: View {
 
                 AddTransactionView()
             }
+           
+        }
+    }
+    private func deleteTransaction(
+        at offsets: IndexSet
+    ) {
+
+        for index in offsets {
+
+            let transaction = transactions[index]
+
+            modelContext.delete(transaction)
         }
     }
 }
