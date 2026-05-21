@@ -15,7 +15,7 @@ struct TransactionListView: View {
         order: .reverse
     )
     private var transactions: [Transaction]
-
+    @State private var showAddTransaction = false
     var body: some View {
 
         NavigationStack {
@@ -30,6 +30,23 @@ struct TransactionListView: View {
                 }
             }
             .navigationTitle("Finance Tracker")
+            
+            .toolbar {
+
+                Button {
+
+                    showAddTransaction = true
+
+                } label: {
+
+                    Image(systemName: "plus")
+                }
+            }
+
+            .sheet(isPresented: $showAddTransaction) {
+
+                AddTransactionView()
+            }
         }
     }
 }
