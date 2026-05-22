@@ -249,5 +249,5 @@ struct TransactionListView: View {
 }
 
 #Preview {
-    TransactionListView()
+    MainTabView()
 }
