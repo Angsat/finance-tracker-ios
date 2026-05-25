@@ -7,6 +7,8 @@
 
 import SwiftUI
 import SwiftData
+import Charts
+
 struct AnalyticsView: View {
 
 
@@ -58,7 +60,7 @@ struct AnalyticsView: View {
 
         NavigationStack {
 
-            ScrollView {
+            ScrollView(.vertical, showsIndicators: true) {
 
                 VStack(spacing: 16) {
 
@@ -95,8 +97,9 @@ struct AnalyticsView: View {
                             HStack {
 
                                 Text(item.category)
-
+                               
                                 Spacer()
+
 
                                 Text(item.total.asCurrency())
                                     .fontWeight(.semibold)
@@ -108,7 +111,31 @@ struct AnalyticsView: View {
                             )
                         }
                     }
-                    
+                    VStack(alignment: .leading, spacing: 12) {
+
+                        Text("Expense Chart")
+                            .font(.headline)
+
+                        Chart {
+
+                            ForEach(categoryTotals) { item in
+
+                                BarMark(
+                                    x: .value("Amount", item.total),
+                                    y: .value("Category", item.category)
+                                )
+                            }
+                        }
+                        .frame(height: 220)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: 16)
+                        )
+                        
+                        Color.clear
+                            .frame(height: 40)
+                    }
                 }
                 
                 .padding()
@@ -149,6 +176,6 @@ struct AnalyticsView: View {
     }
 }
 
-#Preview {
-    AnalyticsView()
-}
+//#Preview {
+//    AnalyticsView()
+//}

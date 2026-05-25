@@ -105,7 +105,8 @@ struct AddTransactionView: View {
         let transaction = Transaction(
             amount: amountValue,
             type: selectedType,
-            category: selectedCategory.rawValue,            note: note.isEmpty ? nil : note
+            category: selectedCategory.rawValue,
+            note: note.isEmpty ? nil : note
         )
 
         context.insert(transaction)
@@ -114,6 +115,6 @@ struct AddTransactionView: View {
     }
 }
 
-#Preview {
-    AddTransactionView()
-}
+//#Preview {
+//    AddTransactionView()
+//}
