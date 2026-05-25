@@ -169,7 +169,8 @@ struct TransactionListView: View {
                 .padding(.horizontal)
                 .padding(.horizontal)
                 List {
-                    if transactions.isEmpty {
+
+                    if filteredTransactions.isEmpty {
 
                         VStack(spacing: 16) {
 
@@ -185,35 +186,28 @@ struct TransactionListView: View {
                             .font(.caption)
                             .foregroundStyle(.gray)
                         }
-                        .frame(
-                            maxWidth: .infinity,
-                            maxHeight: .infinity
-                        )
+                        .frame(maxWidth: .infinity)
 
                     } else {
 
-                        List {
+                        ForEach(filteredTransactions) { transaction in
 
-                            ForEach(filteredTransactions) { transaction in
+                            NavigationLink {
 
-                                NavigationLink {
+                                EditTransactionView(
+                                    transaction: transaction
+                                )
 
-                                    EditTransactionView(
-                                        transaction: transaction
-                                    )
+                            } label: {
 
-                                } label: {
-
-                                    TransactionRowView(
-                                        transaction: transaction
-                                    )
-                                }
+                                TransactionRowView(
+                                    transaction: transaction
+                                )
                             }
-                            .onDelete(perform: deleteTransaction)
                         }
+                        .onDelete(perform: deleteTransaction)
                     }
-                }
-                .navigationTitle("Finance Tracker")
+                }                .navigationTitle("Finance Tracker")
                 
                 .toolbar {
                     
@@ -241,8 +235,8 @@ struct TransactionListView: View {
 
         for index in offsets {
 
-            let transaction = transactions[index]
-
+            let transaction = filteredTransactions[index]
+            
             modelContext.delete(transaction)
         }
     }
