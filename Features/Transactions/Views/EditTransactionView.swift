@@ -12,7 +12,7 @@ struct EditTransactionView: View {
 
     @Environment(\.dismiss)
     private var dismiss
-
+    @State private var showError = false
     @Bindable var transaction: Transaction
 
     var body: some View {
@@ -87,9 +87,26 @@ struct EditTransactionView: View {
 
                     Button("Save") {
 
+                        guard transaction.amount > 0 else {
+
+                            showError = true
+                            return
+                        }
+
                         dismiss()
                     }
                 }
+            }
+            .alert(
+                "Invalid Amount",
+                isPresented: $showError
+            ) {
+
+                Button("OK", role: .cancel) { }
+
+            } message: {
+
+                Text("Amount must be greater than zero.")
             }
         }
     }

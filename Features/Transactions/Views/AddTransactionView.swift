@@ -15,7 +15,8 @@ struct AddTransactionView: View {
 
     @Environment(\.modelContext)
     private var context
-
+    @State private var showError = false
+    @State private var errorMessage = ""
     @State private var amount = ""
     @State private var selectedType: TransactionType = .expense
     @State private var selectedCategory:
@@ -93,12 +94,35 @@ struct AddTransactionView: View {
                     }
                 }
             }
+            .alert(
+                "Validation Error",
+                isPresented: $showError
+            ) {
+
+                Button("OK", role: .cancel) { }
+
+            } message: {
+
+                Text(errorMessage)
+            }
         }
     }
 
     private func saveTransaction() {
 
+        guard !amount.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        ).isEmpty else {
+
+            errorMessage = "Amount cannot be empty"
+            showError = true
+            return
+        }
+
         guard let amountValue = Double(amount) else {
+
+            errorMessage = "Please enter a valid number"
+            showError = true
             return
         }
 
