@@ -32,10 +32,9 @@ struct MainTabView: View {
             SettingsView()
                 .tabItem {
 
-                    Label(
-                        "Settings",
-                        systemImage: "gearshape.fill"
-                    )
+                    Image(systemName: "gear")
+
+                    Text("Settings")
                 }
         }
     }
